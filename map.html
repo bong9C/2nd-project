@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_307ca276ed0b50a2a6dd27e4fc4bdbe5 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_307ca276ed0b50a2a6dd27e4fc4bdbe5" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_307ca276ed0b50a2a6dd27e4fc4bdbe5 = L.map(
+                "map_307ca276ed0b50a2a6dd27e4fc4bdbe5",
+                {
+                    center: [37.520609032129826, 126.92783930643861],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 14,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_9032d1642094a507276acf33cc44308f = L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "Data by \u0026copy; \u003ca target=\"_blank\" href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca target=\"_blank\" href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_307ca276ed0b50a2a6dd27e4fc4bdbe5);
+        
+    
+            var marker_4ee39433c7632fbc0794197c947d1b53 = L.marker(
+                [37.5237811435126, 126.92687397999],
+                {}
+            ).addTo(map_307ca276ed0b50a2a6dd27e4fc4bdbe5);
+        
+    
+            marker_4ee39433c7632fbc0794197c947d1b53.bindTooltip(
+                `<div>
+                     ['여의도심리상담센터', '<br>', '서울특별시 영등포구 여의나루로 71 동화빌딩 6층 605호']
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_027c14f7dc02f9af4c896993c30dee64 = L.marker(
+                [37.521470230225, 126.924971147893],
+                {}
+            ).addTo(map_307ca276ed0b50a2a6dd27e4fc4bdbe5);
+        
+    
+            marker_027c14f7dc02f9af4c896993c30dee64.bindTooltip(
+                `<div>
+                     ['마음iN심리상담센터 여의도점', '<br>', '서울특별시 영등포구 여의나루로 42 5층 510호']
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_0d98df5e637dae995958fa3d7e2f7f1d = L.marker(
+                [37.5202405439146, 126.926406742546],
+                {}
+            ).addTo(map_307ca276ed0b50a2a6dd27e4fc4bdbe5);
+        
+    
+            marker_0d98df5e637dae995958fa3d7e2f7f1d.bindTooltip(
+                `<div>
+                     ['이주은 부부상담 본점', '<br>', '서울특별시 영등포구 의사당대로 127 롯데캐슬 엠파이어']
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_496f464e4b81bca4fd82769047354841 = L.marker(
+                [37.5193646373722, 126.929590087587],
+                {}
+            ).addTo(map_307ca276ed0b50a2a6dd27e4fc4bdbe5);
+        
+    
+            marker_496f464e4b81bca4fd82769047354841.bindTooltip(
+                `<div>
+                     ['조이에듀', '<br>', '서울특별시 영등포구 여의대방로65길 13 602호(여의도동, 유창빌딩)']
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_ccea755ffe3ac87af70d6463dd11a99d = L.marker(
+                [37.5181886056247, 126.931354574177],
+                {}
+            ).addTo(map_307ca276ed0b50a2a6dd27e4fc4bdbe5);
+        
+    
+            marker_ccea755ffe3ac87af70d6463dd11a99d.bindTooltip(
+                `<div>
+                     ['허그맘허그인심리상담센터 여의도센터', '<br>', '서울특별시 영등포구 여의대방로 376 나라키움여의도빌딩 305~307호']
+                 </div>`,
+                {"sticky": true}
+            );
+        
+</script>
+</html>
