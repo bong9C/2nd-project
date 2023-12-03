@@ -13,6 +13,65 @@ import folium
 app = Flask(__name__)
 
 
+def get_kakao_api_key():
+    try:
+        with open('keys/카카오api.txt') as file:
+            return file.read().strip()
+    except FileNotFoundError:
+        raise FileNotFoundError("카카오 API 키 파일을 찾을 수 없습니다.")
+    except Exception as e:
+        raise Exception(f"카카오 API 키를 읽는 중 오류 발생: {e}")
+
+
+def get_lat_lng_from_address(address, api_key):
+    try:
+        base_url = 'https://dapi.kakao.com/v2/local/search/address.json'
+        header = {'Authorization': f'KakaoAK {api_key}'}
+        url = f'{base_url}?query={quote(address)}'
+        result = requests.get(url, headers=header).json()
+        return float(result['documents'][0]['y']), float(result['documents'][0]['x'])
+    except Exception as e:
+        raise Exception(f"주소에서 위도 경도를 가져오는 중 오류 발생: {e}")
+
+
+def get_naver_place_url(lat, lng, market):
+    return f'https://m.place.naver.com/place/list?x={lng}&y={lat}&query={market[0]} {market}'
+
+
+def get_center_data(driver, center_list, i):
+    center = center_list.select('li', recursive=False)[i]
+    if center:
+        c_distance_element = center.select_one('span.lWwyx.NVngW')
+        c_distance = c_distance_element.get_text().split(
+            '서')[1] if c_distance_element else 'N/A'
+        c_title = center.select_one('span.YwYLL').get_text(
+        ) if center.select_one('span.YwYLL') else 'N/A'
+        try:
+            juso_way = driver.find_elements(By.CLASS_NAME, 'uFxr1')
+            juso_way[i].click()
+            soup = BeautifulSoup(driver.page_source, 'html.parser')
+            center_list = soup.find('ul', class_='eDFz9')
+            if center_list.select_one('div.zZfO1'):
+                c_addr = center_list.select_one(
+                    'div.zZfO1').get_text().split('복사')[0][3:]
+            else:
+                c_addr = 'N/A'
+            c_phone = center.select_one('span.JsCty > a').get(
+                'href')[4:] if center.select_one('span.JsCty > a') else 'N/A'
+            time.sleep(1)
+        except:
+            print('근처에 매장이 없습니다')
+        return {
+            '거리': c_distance,
+            '매장명': c_title,
+            '주소': c_addr,
+            '전화번호': c_phone
+        }
+    else:
+        print('센터 정보를 찾을 수 없습니다.')
+        return None
+
+
 @app.route('/')
 def student():
     return render_template('selectAddr.html')
@@ -25,132 +84,73 @@ def result():
 
     gu = val['gu']
     dong = val['dong']
+    market = f'서울시 {gu} {dong}'
 
-    market = '서울시 ' + str(gu) + ' ' + str(dong)
+    try:
+        kakao_key = get_kakao_api_key()
+        lat, lng = get_lat_lng_from_address(market, kakao_key)
+    except Exception as e:
+        return render_template("error.html", error=f"위도 경도를 가져오는 중 오류 발생: {e}")
 
     options = webdriver.ChromeOptions()
     options.add_argument("headless")
-    # 고객이 입력한 주소 좌표 구하기
+
     try:
-        with open('keys/카카오api.txt') as file:
-            kakao_key = file.read()
+        n_place_url = get_naver_place_url(lat, lng, market)
+        driver = webdriver.Chrome(options=options)
+        driver.get(n_place_url)
+    except Exception as e:
+        return render_template("error.html", error=f"Selenium을 통해 네이버 플레이스에 접근하는 중 오류 발생: {e}")
 
-        base_url = 'https://dapi.kakao.com/v2/local/search/address.json'
-        header = {'Authorization': f'KakaoAK {kakao_key}'}
-        url = f'{base_url}?query={quote(market)}'
-        result = requests.get(url, headers=header).json()
-        lat = float(result['documents'][0]['y'])
-        lng = float(result['documents'][0]['x'])
-    except:
-        print('주소 형식이 올바르지 않습니다.')
+    try:
+        filter = driver.find_element(
+            By.XPATH, '//*[@id="_place_portal_root"]/div/a')
+        filter.click()
+        time.sleep(3)
 
-    results = []
+        short_way = driver.find_element(
+            By.XPATH, '//*[@id="_list_scroll_container"]/div/div/div[1]/div/div/div/span[2]/a')
+        short_way.click()
+        time.sleep(3)
 
-    # 네이버 플레이스 셀레니움으로 들어가기
-    n_place_url = f'https://m.place.naver.com/place/list?x={lng}&y={lat}&query={market[0]} {market}'
-    driver = webdriver.Chrome(options=options)
-    driver.get(n_place_url)
+        soup = BeautifulSoup(driver.page_source, 'html.parser')
+        center_list = soup.find('ul', class_='eDFz9')
+        results = []
 
-    # '목록보기' 클릭
-    filter = driver.find_element(
-        By.XPATH, '//*[@id="_place_portal_root"]/div/a')
-    filter.click()
-    time.sleep(3)
-
-    # '거리순' 클릭
-    short_way = driver.find_element(
-        By.XPATH, '//*[@id="_list_scroll_container"]/div/div/div[1]/div/div/div/span[2]/a')
-    short_way.click()
-    time.sleep(3)
-
-    # 마켓 정보 불러오기
-    soup = BeautifulSoup(driver.page_source, 'html.parser')
-    center_list = soup.find('ul', class_='eDFz9')
-
-    for i in range(5):
-        if center_list:
-            center = center_list.select('li', recursive=False)[i]
-
-            if center:
-                # 현재 위치에서 마켓 거리
-                c_distance_element = center.select_one('span.lWwyx.NVngW')
-                c_distance = c_distance_element.get_text().split(
-                    '서')[1] if c_distance_element else 'N/A'
-
-                # 센터 이름
-                if center.select_one('span.YwYLL'):
-                    c_title = center.select_one('span.YwYLL').get_text()
-                else:
-                    c_title = 'N/A'
-
-                # '상세 주소 화살표' 클릭
-                try:
-                    juso_way = driver.find_elements(By.CLASS_NAME, 'uFxr1')
-                    juso_way[i].click()
-                    soup = BeautifulSoup(driver.page_source, 'html.parser')
-                    center_list = soup.find('ul', class_='eDFz9')
-                    # 센터 도로명 주소
-                    if center_list.select_one('div.zZfO1'):
-                        if center_list.select_one('div.zZfO1').get_text()[:2] == '도로':
-                            c_addr = center_list.select_one(
-                                'div.zZfO1').get_text().split('복사')[0][3:]
-                        elif center_list.select_one('div.zZfO1').get_text()[:2] == '지번':
-                            c_addr = center_list.select_one(
-                                'div.zZfO1').get_text().split('복사')[1][2:]
-                        else:
-                            c_addr = center_list.select_one(
-                                'div.zZfO1').get_text().split('복사')[1][2:]
-                    else:
-                        c_addr = 'N/A'
-
-                    # 전화번호 추출
-                    if center.select_one('span.JsCty > a'):
-                        c_phone = center.select_one(
-                            'span.JsCty > a').get('href')[4:]
-                    else:
-                        c_addr = 'N/A'
-
-                    time.sleep(1)
-                except:
-                    print('근처에 매장이 없습니다')
-
-                # 딕셔너리 형태로 저장
-                center_data = {
-                    '거리': c_distance,
-                    '매장명': c_title,
-                    '주소': c_addr,
-                    '전화번호': c_phone
-                }
-                # 딕셔너리 형태로 저장한 것을 리스트에 저장 (3가지 마켓을 넣어야 하므로)
+        for i in range(5):
+            center_data = get_center_data(driver, center_list, i)
+            if center_data:
                 results.append(center_data)
-
-            else:
-                print('센터 정보를 찾을 수 없습니다.')
-        else:
-            print('센터 리스트를 찾을 수 없습니다.')
+    except Exception as e:
+        return render_template("error.html", error=f"매장 정보를 가져오는 중 오류 발생: {e}")
+    finally:
+        driver.quit()
 
     df = pd.DataFrame(results)
 
-    base_url = 'https://dapi.kakao.com/v2/local/search/address.json'
-    header = {'Authorization': f'KakaoAK {kakao_key}'}
-    lat_list, lng_list = [], []
+    try:
+        lat_list, lng_list = [], []
+        for i in df.index:
+            url = f'https://dapi.kakao.com/v2/local/search/address.json?query={quote(df["주소"][i])}'
+            result = requests.get(
+                url, headers={'Authorization': f'KakaoAK {kakao_key}'}).json()
+            lat_list.append(float(result['documents'][0]['y']))
+            lng_list.append(float(result['documents'][0]['x']))
+        df['위도'] = lat_list
+        df['경도'] = lng_list
+        df = df.astype({'위도': 'float', '경도': 'float'})
+    except Exception as e:
+        return render_template("error.html", error=f"매장 주소를 통해 위도 경도를 가져오는 중 오류 발생: {e}")
 
-    for i in df.index:
-        url = f'{base_url}?query={quote(df["주소"][i])}'
-        result = requests.get(url, headers=header).json()
-        lat_list.append(float(result['documents'][0]['y']))
-        lng_list.append(float(result['documents'][0]['x']))
+    try:
+        map = folium.Map([df.위도.mean(), df.경도.mean()], zoom_start=13)
+        for i in df.index:
+            folium.Marker([df.위도[i], df.경도[i]],
+                          tooltip=f'<strong>{df.매장명[i]}</strong><br>{df.주소[i]}<br>{df.전화번호[i]}').add_to(map)
+        map.save('returnmap.html')
+    except Exception as e:
+        return render_template("error.html", error=f"Folium을 사용하여 지도를 생성하는 중 오류 발생: {e}")
 
-    df['위도'] = lat_list
-    df['경도'] = lng_list
-    df = df.astype({'위도': 'float', '경도': 'float'})
-
-    map = folium.Map([df.위도.mean(), df.경도.mean()], zoom_start=13)
-    for i in df.index:
-        folium.Marker([df.위도[i], df.경도[i]],
-                      tooltip=f'<strong>{df.매장명[i]}</strong><br>{df.주소[i]}<br>{df.전화번호[i]}').add_to(map)
-
-    map.save('returnmap.html')
     return render_template("pbook.html", result=val)
 
 
