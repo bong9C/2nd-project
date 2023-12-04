@@ -18,20 +18,26 @@
     </button>
     <ul class="dropdown-menu">
       {% for gu in gus %}
-        <li><a class="서울시" href="#">{{ gu }}</a></li>
+        <li><a class="서울시" href="#" onclick="loadMap('{{ gu }}')">{{ gu }}</a></li>
       {% endfor %}
     </ul>
   </div>
   
-  {% block content %}
   <div title_html="대한법률구조공단 위치"><br>
     <div class="mx-auto text-center">
-      <iframe src="{{url_for('static', filename='Map/map.html')}}" style="height:600px;width:60%;border:none;overflow:hidden;"></iframe>
+      <iframe id="map-iframe" style="height:600px;width:60%;border:none;overflow:hidden;"></iframe>
       <br><br>
     </div>
   </div>
-  {% endblock %}
+
+  <script>
+    function loadMap(selectedGu) {
+      // Set the source of the iframe dynamically based on the selectedGu
+      document.getElementById('map-iframe').src = "{{ url_for('static', filename='map/map') }}/" + selectedGu + "_map.html";
+    }
+  </script>
 </div>
 
 </body>
 </html>
+
