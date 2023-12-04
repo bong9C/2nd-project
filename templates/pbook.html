@@ -2,14 +2,21 @@
 <html>
 
 <body>
-    <table border=1>
-        {% for key, value in result.items() %}
-        <tr>
-            <th> {{ key }} </th>
-            <td> {{ value }} </td>
-        </tr>
-        {% endfor %}
-    </table>
+    <form action="/pbook" method="post">
+        <table border=1>
+            <tr>
+                <td>구</td>
+                <td><select name="mapapi.html" id=""></select></td>
+            </tr>
+            <tr>
+                <td>동</td>
+                <td><select name="" id=""></select></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" value="확인"></td>
+            </tr>
+        </table>
+    </form>
 </body>
 
 </html>
