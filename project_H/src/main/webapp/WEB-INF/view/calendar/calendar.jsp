@@ -25,7 +25,7 @@
         }
 
         #background {
-            background: url('img/무지개.png') center center / cover no-repeat fixed;
+            background: url('img/HHH.jpg') center center / cover no-repeat fixed;
             height: 100vh; /* 100% 뷰포트 높이를 사용하여 전체 화면을 채우도록 설정 */
             position: fixed;
             width: 100%;
@@ -241,6 +241,7 @@
                 $('#sidebar').width(0);
             });
         });
+        
     </script>
 </body>
 </html>

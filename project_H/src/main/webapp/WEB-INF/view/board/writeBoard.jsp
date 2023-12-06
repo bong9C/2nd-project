@@ -9,9 +9,10 @@
 <style>
 body {
 	font-family: 'Arial', sans-serif;
-	background: url('/project_H/img/pa.jpg') no-repeat center center fixed;
+	background: url('/project_H/img/CCC.png') no-repeat center center fixed;
 	/* 이미지 경로에 따라 수정하세요 */
 	background-size: cover;
+	color: white;
 }
 
 body {
@@ -21,6 +22,7 @@ body {
 .container {
 	width: 60%;
 	margin: 50px auto;
+	color: white;
 }
 
 form {
@@ -31,6 +33,7 @@ form {
 
 label {
 	font-weight: bold;
+	color: white;
 }
 
 button {
@@ -69,7 +72,7 @@ button {
 				</div>
 			</form:form>
 		</form:form>
-		<a href="${pageContext.request.contextPath}/board/list/1">게시글 목록으로
+		<a href="${pageContext.request.contextPath}/board/list/1"style="color: white;">게시글 목록으로
 			돌아가기</a>
 	</div>
 	<script>

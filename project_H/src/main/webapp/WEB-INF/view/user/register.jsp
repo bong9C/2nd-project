@@ -14,9 +14,9 @@
 <body>
 	
     <nav style="position: relative; height: 100vh; overflow: hidden;">
-        <img src="/project_H/img/co.jpg" alt="co" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;">
+        <img src="/project_H/img/CCC.png" alt="CCC" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;">
         <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-            <img src="/project_H/img/book2.png" alt="book2" style="position: absolute; top: 1.5cm; left: 3cm; width: 80%; height: 80%;">
+            <img src="/project_H/img/book1.png" alt="book1" style="position: absolute; top: 1.5cm; left: 3cm; width: 80%; height: 80%;">
             <img src="/project_H/img/my_color.png" alt="my" style="position: absolute; top: 9cm; left: 20cm; width: 20%; height: 20%;">
             <div style="position: absolute; top: 200px; left: calc(250px + 2cm); color: #black; z-index: 1;">
                 <h3><strong>회원가입</strong></h3>
