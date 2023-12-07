@@ -55,8 +55,8 @@
     </style>
 </head>
 <body>
-    <img src="/project_H/img/CCC.png" alt="CCC" class="background-image">
-    <img src="/project_H/img/book1.png" alt="book1" style="position: absolute; top: 100px; left: 60px; width: 1300px; height: 800px; z-index: 1;">
+    <img src="/project_H/img/pa.jpg" alt="pa" class="background-image">
+    <img src="/project_H/img/book2.png" alt="book2" style="position: absolute; top: 100px; left: 60px; width: 1300px; height: 800px; z-index: 1;">
     
     <div class="content-container" style="margin-top: 5cm;">
     <h2>상담센터 지도 검색</h2>
