@@ -26,6 +26,9 @@ public interface BoardService {
     
     void deleteBoard(int bid);
     
+    void increaseviewCount(int bid);
+    
+
     
 }
 

@@ -28,9 +28,20 @@ public class HomeController {
 		return "calendar/calendar";				// webapp/WEB-INF/view/calendar.jsp 를 렌더링해서 보여줌
 	}
 	
-
 	
 
+	@GetMapping("/diary")	
+	public String diary(Model model) {
+		model.addAttribute("menu", "home");
+		return "diary/diary";				
+	}
+	
+
+	@GetMapping("/diary/write") 
+	public String diarylist(Model model) {
+		model.addAttribute("menu", "home");
+		return "diary/diaryWrite";				
+	}
 	
 
 }

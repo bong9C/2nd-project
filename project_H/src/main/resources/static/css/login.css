@@ -57,18 +57,16 @@ body {
 #login-form > input[type="submit"] {
     color: #fff;
     font-size: 16px;
-    background-color: #A0522D; /* 분홍색으로 변경 (색상 코드는 예시이므로 실제로 사용할 색상으로 변경하세요) */
+    background-color: #A0522D;
     margin-top: 20px;
 }
 
-/* 분홍색으로 변경한 로그인 버튼에 대한 스타일 */
-#login-form > input[type="submit"].purple {
-    background-color: #A0522D; /* 분홍색으로 변경 (색상 코드는 예시이므로 실제로 사용할 색상으로 변경하세요) */
+#login-form > input[type="checkbox"] {
+    display: none;
 }
 
-/* 호버 효과 */
-#login-form > input[type="submit"].purple:hover {
-    background-color: #A0522D; /* 호버 시 배경 색상 변경 */
+#login-form > label {
+    color: #A0522D;
 }
 
 #login-form input[type="checkbox"] + label {
@@ -103,7 +101,7 @@ body {
 /* "purple" 클래스에 대한 스타일 */
 .purple {
     color: #fff; /* 텍스트 색상 */
-    background-color: #A0522D; /* 원하는 배경 색상으로 변경 */
+    background-color: #A0522D; /* 배경 색상 */
 }
 
 /* 호버 효과 */

@@ -50,6 +50,10 @@ public class BoardServiceImpl implements BoardService {
 		boardDao.deleteBoard(bid);
 	}
 	
+	@Override
+	public void increaseviewCount(int bid) {
+		boardDao.increaseviewCount(bid);
+	}
 	
 	
 	

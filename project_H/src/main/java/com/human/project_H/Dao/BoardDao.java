@@ -25,8 +25,12 @@ public interface BoardDao {
             "WHERE b.rnum > #{offset}")
     List<Board> getBoardList(int offset, int limit);
 
-    @Select("SELECT * FROM board WHERE bid = #{bid}")
+    @Select("SELECT b.*, u.nickname " +
+            "FROM board b " +
+            "JOIN users u ON b.custId = u.custId " +
+            "WHERE b.bid = #{bid}")
     Board getBoard(int bid);
+
 
     
     @Insert("INSERT INTO board" +
@@ -38,4 +42,8 @@ public interface BoardDao {
 
     @Update("DELETE FROM board WHERE bid = #{bid}")
     void deleteBoard(int bid);
+    
+    // 조회수 증가
+    @Update("UPDATE board SET viewCount = viewCount + 1 WHERE bid = #{bid}")
+    void increaseviewCount(int bid);
 }

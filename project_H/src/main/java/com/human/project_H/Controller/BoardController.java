@@ -21,8 +21,8 @@ import com.human.project_H.service.BoardService;
 @Controller
 @RequestMapping("/board")
 public class BoardController {
-    @Autowired private BoardService boardService;
-	//private BoardService boardService = null;
+    @Autowired
+    private BoardService boardService;
 
     @GetMapping("/list/{page}")
     public String list(@PathVariable int page, HttpSession session, Model model) {
@@ -46,7 +46,7 @@ public class BoardController {
         // 게시글 정보를 가져와서 JSP에 전달
         Board board = boardService.getBoard(bid);
         model.addAttribute("board", board);
-        return "updateBoard";
+        return "board/updateBoard";
     }
 
     @PostMapping("/update")
@@ -85,10 +85,12 @@ public class BoardController {
 
     @GetMapping("/view/{bid}")
     public String viewBoard(@PathVariable int bid, Model model) {
-        // 게시글 정보를 가져와서 JSP에 전달
-        Board board = boardService.getBoard(bid);
-        model.addAttribute("board", board);
-        return "board/detailBoard";
+    	   boardService.increaseviewCount(bid);
+
+    	    // 게시글 정보를 가져와서 JSP에 전달
+    	    Board board = boardService.getBoard(bid);
+    	    model.addAttribute("board", board);
+    	    return "board/detailBoard";
     }
     
     @GetMapping("/delete/{bid}")
@@ -96,5 +98,12 @@ public class BoardController {
         // 게시글 삭제
         boardService.deleteBoard(bid);
         return "redirect:/board/list/1";
+    }
+    public String view(@PathVariable int bid, Model model) {
+        // 조회수 증가
+        boardService.increaseviewCount(bid);
+
+        // 다른 로직들...
+        return "board/view";
     }
 }
