@@ -1,14 +1,21 @@
 package com.human.project_H.Controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.human.project_H.entity.User;
 import com.human.project_H.service.UserService;
@@ -18,7 +25,44 @@ import com.human.project_H.service.UserService;
 public class UserController {
 	@Autowired private UserService userService;
 
-	
+
+
+
+    @GetMapping("/list/{page}")
+    public String getUserList(@PathVariable int page, Model model) {
+        // 로직: 페이징 처리 및 사용자 목록 조회
+        List<User> userList = userService.getUserList(page);
+        List<Integer> pageList = userService.getPageList();
+
+        model.addAttribute("userList", userList);
+        model.addAttribute("sessUid", "현재 사용자의 UID"); // 세션에서 실제 UID를 가져와야 함
+        model.addAttribute("currentUserPage", page);
+        model.addAttribute("pageList", pageList);
+
+        return "userList"; // 사용자 목록을 보여주는 JSP 파일 이름
+    }
+
+    @GetMapping("/update/{custId}")
+    @ResponseBody
+    public User getUserDetails(@PathVariable String custId) {
+        // 로직: 사용자 정보 조회
+        return userService.getUser(custId);
+    }
+
+    @PostMapping("/update")
+    public String updateUser(@ModelAttribute User custId) {
+        // 로직: 사용자 정보 업데이트
+        userService.updateUser(custId);
+        return "redirect:/project_H/user/list/1";
+    }
+
+    @GetMapping("/delete/{custId}")
+    public String deleteUser(@PathVariable String custId) {
+        // 로직: 사용자 삭제
+        userService.deleteUser(custId);
+        return "redirect:/project_H/user/list/1";
+    }
+
 	
 	
 	@GetMapping("/login")
@@ -81,5 +125,7 @@ public class UserController {
 		}
 		return "common/alertMsg";
 	}
+	
+
 	
 }
