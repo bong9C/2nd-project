@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Update;
 import com.human.project_H.entity.User;
 
 @Mapper
-public interface UserDao {
+public interface UserDaoOracle {
 
 	@Select("select count(uname) from users where isDeleted=0")
 	public int getUserCount();
@@ -32,5 +32,7 @@ public interface UserDao {
 	
 	@Update("update users set isDeleted=1 where custId=#{custId}")
 	void deleteUser(String custId);			// 인터페이스이기 때문에 public 생략 가능
+	
+	
 	
 }

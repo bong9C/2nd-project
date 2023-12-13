@@ -6,12 +6,12 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.human.project_H.Dao.UserDao;
+import com.human.project_H.Dao.UserDaoOracle;
 import com.human.project_H.entity.User;
 
 @Service
 public class UserServiceOracleImpl implements UserService {
-	@Autowired private UserDao userDao;
+	@Autowired private UserDaoOracle userDao;
 
 	@Override
 	public int getUserCount() {
@@ -57,6 +57,12 @@ public class UserServiceOracleImpl implements UserService {
 			return CORRECT_LOGIN;
 		else
 			return WRONG_PASSWORD;
+	}
+
+	@Override
+	public List<Integer> getPageList() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

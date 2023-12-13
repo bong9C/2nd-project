@@ -28,41 +28,71 @@ public class UserController {
 
 
 
-    @GetMapping("/list/{page}")
-    public String getUserList(@PathVariable int page, Model model) {
-        // 로직: 페이징 처리 및 사용자 목록 조회
-        List<User> userList = userService.getUserList(page);
-        List<Integer> pageList = userService.getPageList();
-
-        model.addAttribute("userList", userList);
-        model.addAttribute("sessUid", "현재 사용자의 UID"); // 세션에서 실제 UID를 가져와야 함
-        model.addAttribute("currentUserPage", page);
-        model.addAttribute("pageList", pageList);
-
-        return "userList"; // 사용자 목록을 보여주는 JSP 파일 이름
-    }
-
-    @GetMapping("/update/{custId}")
-    @ResponseBody
-    public User getUserDetails(@PathVariable String custId) {
-        // 로직: 사용자 정보 조회
-        return userService.getUser(custId);
-    }
-
-    @PostMapping("/update")
-    public String updateUser(@ModelAttribute User custId) {
-        // 로직: 사용자 정보 업데이트
-        userService.updateUser(custId);
-        return "redirect:/project_H/user/list/1";
-    }
-
-    @GetMapping("/delete/{custId}")
-    public String deleteUser(@PathVariable String custId) {
-        // 로직: 사용자 삭제
-        userService.deleteUser(custId);
-        return "redirect:/project_H/user/list/1";
-    }
-
+	@ResponseBody
+	@GetMapping(value = {"/update/{custId}", "update"})
+	public String updateForm(@PathVariable(required = false) String custId) {
+		if (custId == null)
+			return "redirect:/user/login";
+		User user = userService.getUser(custId);
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("custId", user.getcustId());
+		jsonObject.put("uname", user.getUname());
+		jsonObject.put("email", user.getEmail());
+		return jsonObject.toJSONString();
+	}
+	
+	@PostMapping("/update")
+	public String updateProc(String pwd, String pwd2, String uname, 
+							 String email, HttpSession session, Model model) {
+		String sesscustId = (String) session.getAttribute("sesscustId");
+		if (sesscustId == null)
+			return "redirect:/user/login";
+		
+		User user = userService.getUser(sesscustId);
+		// System.out.println("pwd=" + pwd + ", pwd2=" + pwd2);
+		if (pwd.length() >= 4 && pwd.equals(pwd2)) {
+			String hashedPwd = BCrypt.hashpw(pwd, BCrypt.gensalt());
+			user.setPwd(hashedPwd);
+		} else if (pwd.equals("") && pwd2.equals("")) {
+			;				// 아무일도 하지 않는다
+		} else {
+			model.addAttribute("msg", "패스워드를 다시 입력하고 수정하세요.");
+			model.addAttribute("url", "/sample/user/list/" + session.getAttribute("currentUserPage"));
+			return "common/alertMsg";
+		}
+		user.setUname(uname);
+		user.setEmail(email);
+		userService.updateUser(user);
+		
+		return "redirect:/user/list/" + session.getAttribute("currentUserPage");
+	}
+	
+	@GetMapping("/delete/{custId}")
+	public String delete(@PathVariable String custId, HttpSession session) {
+		String sesscustId = (String) session.getAttribute("sesscustId");
+		if (sesscustId == null)
+			return "redirect:/user/login";
+		userService.deleteUser(custId);
+		return "redirect:/user/list/" + session.getAttribute("currentUserPage");
+	}
+	
+	@GetMapping("/list/{page}")
+	public String list(@PathVariable int page, HttpSession session, Model model) {
+		List<User> list = userService.getUserList(page);
+		model.addAttribute("userList", list);
+		
+		int totalUsers = userService.getUserCount();
+		int totalPages = (int) Math.ceil((double)totalUsers / userService.RECORDS_PER_PAGE);
+		List<String> pageList = new ArrayList<>();
+		for (int i=1; i<=totalPages; i++)
+			pageList.add(String.valueOf(i));
+		model.addAttribute("pageList", pageList);
+		session.setAttribute("currentUserPage", page);
+		model.addAttribute("menu", "user");
+		
+		return "user/list";
+	}
+	
 	
 	
 	@GetMapping("/login")
