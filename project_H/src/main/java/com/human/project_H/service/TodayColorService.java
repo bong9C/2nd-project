@@ -7,9 +7,17 @@ import com.human.project_H.entity.TodayColor;
 
 
 public interface TodayColorService {
-
+	
 	List<TodayColor> getAllColors();
 	
+
+
+	TodayColor choiceTodayColor(String color);
+
+
+	TodayColor searchTodayColor(int cid);
 	
-	TodayColor getTodayColorId(int cid);
+	
+	TodayColor getAllColorCode2(String color_code2);
+	
 }

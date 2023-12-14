@@ -1,9 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Login Page</title>
+<meta charset="UTF-8">
+<title>Insert title here</title>
     <link href="/project_H/css/login.css" rel="stylesheet">
     <title>Bootstrap Example</title>
     <meta charset="utf-8">
@@ -11,52 +12,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="styles.css"> 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        // 페이지 로딩 시 아이디 필드에 저장된 아이디가 있는지 확인하여 자동으로 입력
-        window.onload = function () {
-            var savedId = getCookie("savedId");
-            if (savedId !== "") {
-                document.getElementById("custId").value = savedId;
-                document.getElementById("remember-check").checked = true;
-            }
-        }
-
-        // 아이디 저장 여부에 따라 쿠키 설정
-        function rememberId() {
-            var checkBox = document.getElementById("remember-check");
-            var custId = document.getElementById("custId").value;
-            
-            if (checkBox.checked) {
-                setCookie("savedId", custId, 30); // 30일 동안 쿠키 유지
-            } else {
-                setCookie("savedId", "", 0); // 쿠키 삭제
-            }
-        }
-
-        // 쿠키 설정 함수
-        function setCookie(name, value, days) {
-            var expires = "";
-            if (days) {
-                var date = new Date();
-                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                expires = "; expires=" + date.toUTCString();
-            }
-            document.cookie = name + "=" + value + expires + "; path=/";
-        }
-
-        // 쿠키 가져오기 함수
-        function getCookie(name) {
-            var nameEQ = name + "=";
-            var ca = document.cookie.split(';');
-            for (var i = 0; i < ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-            }
-            return "";
-        }
-    </script>
 </head>
 <body>
     <div class="container" style="margin-top:1px">
@@ -69,14 +24,14 @@
                         <div class="container">
                             <h2>Login <button type="button" class="btn btn-outline-black" onclick='location.href="/project_H/user/register"'>회원가입</button></h2>
                             <form method="post" action="/project_H/user/login" id="login-form">
-                                <input type="text" name="custId" id="custId" placeholder="아이디">
+                                <input type="text" name="custId" placeholder="아이디">
                                 <input type="password" name="pwd" placeholder="비밀번호">
                                 <label for="remember-check">
-                                    <input type="checkbox" id="remember-check" onchange="rememberId()">아이디 저장하기
+                                    <input type="checkbox" id="remember-check">아이디 저장하기
                                 </label>
                                 <input type="submit" value="Login">
-                                <img src="/project_H/img/글씨3.png" alt="글씨3" style="position: absolute; top: -150px; left:-540px; width: 500px; height: 400px;">
-                                <img src="/project_H/img/문구.png" alt="문구" style="position: absolute; top: 0px; left:-500px; width: 500px; height: 500px;">
+							            <img src="/project_H/img/글씨3.png" alt="글씨3" style="position: absolute; top: -150px; left:-540px; width: 500px; height: 400px;">
+							            <img src="/project_H/img/문구.png" alt="문구" style="position: absolute; top: 0px; left:-500px; width: 500px; height: 500px;">
                             </form>
                         </div>
                     </div>
@@ -84,5 +39,7 @@
             </div>
         </div>
     </div>
+
+
 </body>
 </html>

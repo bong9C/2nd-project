@@ -19,11 +19,6 @@ public class HomeController {
 		return "";
 	}
 	
-	@GetMapping("userM")
-	public String userM() {
-		return "user/list";
-	}
-	
 	
 	@GetMapping("/index")
 	@ResponseBody
@@ -31,8 +26,7 @@ public class HomeController {
 		return "<h1>Welcome to SpringBoot World!!!</h1>";
 	}
 
-	
-	
+
 
 	@GetMapping("/diary")	
 	public String diary(Model model) {
