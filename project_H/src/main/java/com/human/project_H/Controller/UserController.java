@@ -110,16 +110,16 @@ public class UserController {
 
 	        // admin2로 로그인한 경우 리스트 페이지로 이동
 	        if ("admin2".equals(custId)) {
-	            List<User> list = userService.getUserList(1); // 페이지 번호 변경 가능
-	            model.addAttribute("userList", list);
-	            int totalUsers = userService.getUserCount();
-	            int totalPages = (int) Math.ceil((double) totalUsers / userService.RECORDS_PER_PAGE);
-	            List<String> pageList = new ArrayList<>();
-	            for (int i = 1; i <= totalPages; i++)
-	                pageList.add(String.valueOf(i));
-	            model.addAttribute("pageList", pageList);
-	            model.addAttribute("menu", "user");
-	            return "user/list";
+//	            List<User> list = userService.getUserList(1); // 페이지 번호 변경 가능
+//	            model.addAttribute("userList", list);
+//	            int totalUsers = userService.getUserCount();
+//	            int totalPages = (int) Math.ceil((double) totalUsers / userService.RECORDS_PER_PAGE);
+//	            List<String> pageList = new ArrayList<>();
+//	            for (int i = 1; i <= totalPages; i++)
+//	                pageList.add(String.valueOf(i));
+//	            model.addAttribute("pageList", pageList);
+//	            model.addAttribute("menu", "user");
+	            return "redirect:/user/list/1";
 	        }
 
 	        // 환영 메세지

@@ -3,8 +3,10 @@
 
 <!DOCTYPE html>
 <html>
+
 <head>
-	<%@ include file="../list/head.jspf" %>
+    <%@ include file="../common/head.jsp" %>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <style>
         body {
             background-image: url('/project_H/img/pa.jpg');
@@ -18,33 +20,42 @@
         .disabled-link {
             pointer-events: none;
         }
+        .custom-margin {
+            margin-top: 6cm;
+        }
     </style>
-	<script>
-		function updateFunc(custId) {
-			console.log('updateFunc()');
-			$.ajax({
-				type: 'GET',
-				url: '/project_H/user/update/' + custId,
-				success: function(result) {
-					let user = JSON.parse(result);
-					$('#custId').val(user.custId);
-					$('#uname').val(user.uname);
-					$('#email').val(user.email);
-					$('#updateModal').modal('show');
-				}
-			});
-		}
-		function deleteFunc(custId) {
-			$('#delUid').val(custId);
-			$('#deleteModal').modal('show');
-		}
+    <script>
+	    function updateFunc(custId) {
+	        console.log('updateFunc() called');
+	        
+	        // AJAX 요청은 이 함수 내에서 수행되도록 이동
+	        $.ajax({
+	            type: 'GET',
+	            url: '/project_H/user/update/' + custId,
+	            success: function(result) {
+	                let user = JSON.parse(result);
+	                $('#custId').val(user.custId);
+	                $('#uname').val(user.uname);
+	                $('#email').val(user.email);
+	                $('#updateModal').modal('show');
+	            }
+	        });
+	    }
+	
+	    function deleteFunc(custId) {
+	        console.log('deleteFunc() called');
+	        $('#delUid').val(custId);
+	        $('#deleteModal').modal('show');
+	     
+	    }
 	</script>
 </head>
 <body>
-    <div class="container mt-5">
+<%@ include file="../common/top.jsp" %>
+    <div class="container text-center custom-margin">
         <div class="row justify-content-center">  
 			<!-- ================ Main =================== -->
-			<div class="col-9">
+			<div class="col-9 mx-auto">
 				<h3><strong>사용자 목록</strong></h3>
 				<hr>
 				<table class="table table-hover">
@@ -94,7 +105,6 @@
 			<!-- ================ Main =================== -->
 		</div>
 	</div>
-	<%-- <%@ include file="../list/top.jspf" %> --%>
 	<div class="modal" id="updateModal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -147,7 +157,7 @@
                 <div class="modal-body">
                     <strong>삭제하시겠습니까?</strong>
                     <div class="text-center mt-5">
-                        <button class="btn btn-danger" onclick="location.href='/project_H/user/delete/'+$('#delUid').val()">삭제</button>
+                       <button class="btn btn-danger" onclick="location.href='/project_H/user/delete/'+$('#delUid').val()">삭제</button>
                         <button class="btn btn-secondary ms-1" data-bs-dismiss="modal">취소</button>
                     </div>
                 </div>
