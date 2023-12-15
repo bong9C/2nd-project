@@ -61,9 +61,20 @@ public class UserController {
 		}
 		user.setUname(uname);
 		user.setEmail(email);
+		
+		// 수정 업데이트
 		userService.updateUser(user);
 		
-		return "redirect:/user/list/" + session.getAttribute("currentUserPage");
+		if (sessCustId.equals("admin2")) {
+			model.addAttribute("msg", "수정이 완료되었습니다.");
+			model.addAttribute("url", "redirect:/user/list/" + session.getAttribute("currentUserPage"));
+			return "common/alertMsg";
+		} else {
+			model.addAttribute("msg", "수정이 완료되었어요.");
+			model.addAttribute("url", "/project_H/home");
+			return "common/alertMsg";
+		}
+		
 	}
 	
 	@GetMapping("/delete/{custId}")
@@ -77,20 +88,32 @@ public class UserController {
 	
 	@GetMapping("/list/{page}")
 	public String list(@PathVariable int page, HttpSession session, Model model) {
-		List<User> list = userService.getUserList(page);
-		model.addAttribute("userList", list);
-		
-		int totalUsers = userService.getUserCount();
-		int totalPages = (int) Math.ceil((double)totalUsers / userService.RECORDS_PER_PAGE);
-		List<String> pageList = new ArrayList<>();
-		for (int i=1; i<=totalPages; i++)
-			pageList.add(String.valueOf(i));
-		model.addAttribute("pageList", pageList);
-		session.setAttribute("currentUserPage", page);
-		model.addAttribute("menu", "user");
-		
-		return "user/list";
+	    List<User> list;
+
+	    // 세션에서 사용자 권한을 확인
+	    String userRole = (String) session.getAttribute("userRole");
+
+	    if ("admin".equals(userRole)) {
+	        // admin으로 로그인한 경우
+	        list = userService.getUserList(page);
+	        model.addAttribute("userList", list);
+	        model.addAttribute("menu", "user");
+
+	        int totalUsers = userService.getUserCount();
+	        int totalPages = (int) Math.ceil((double) totalUsers / userService.RECORDS_PER_PAGE);
+	        List<String> pageList = new ArrayList<>();
+	        for (int i = 1; i <= totalPages; i++)
+	            pageList.add(String.valueOf(i));
+	        model.addAttribute("pageList", pageList);
+	        session.setAttribute("currentUserPage", page);
+
+	        return "user/list";
+	    } else {
+	        // 그 외의 경우
+	        return "user/list2";
+	    }
 	}
+
 	
 	
 	@GetMapping("/login")
