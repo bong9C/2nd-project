@@ -69,6 +69,7 @@
 					</tr>
 				<c:forEach var="user" items="${userList}" varStatus="loop">
 					<tr>
+					<!-- 페이지 번호 -->
 						<td>${loop.count}</td>
 						<td>${user.custId}</td>
 						<td>${user.uname}</td>

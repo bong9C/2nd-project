@@ -50,6 +50,5 @@
     </div>
 	<%@ include file="common/top.jsp" %>
 	<h1>gg</h1>
-	<%@ include file="common/bottom.jsp" %>
 </body>
 </html>
