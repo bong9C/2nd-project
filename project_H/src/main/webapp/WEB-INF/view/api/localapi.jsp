@@ -1,17 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html style="background-image: url('/project_H/img/pa.jpg'); background-size: cover;">
 <head>
     <meta charset="utf-8">
     <title>키워드로 상담센터 검색하기</title>
 </head>
-<body>
-<div>
+<body style="display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;">
+<div style="text-align: center;">
+<p style="margin-top: 20px;"> "당신을 도와줄 상담센터를 지역을 검색해보세요" </p>
     <label for="keyword">상담센터 키워드:</label>
     <input type="text" id="keyword" />
     <button onclick="searchCounselingCenters()">검색</button>
 </div>
-<div id="map" style="width:100%;height:350px;"></div>
+<div id="map" style="width: 50vw; height: 50vw; margin-top: 20px;"></div>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=163531f559b3b1b15070b9932b6799e2&libraries=services"></script>
 <script>

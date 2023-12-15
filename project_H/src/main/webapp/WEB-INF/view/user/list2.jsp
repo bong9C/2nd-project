@@ -23,6 +23,23 @@
         .custom-margin {
             margin-top: 6cm;
         }
+        
+       
+	    .custom-table input {
+        width: 256px; /* 입력 필드 폭을 대략적으로 10cm로 지정 (1cm ≈ 25.6px) */
+   		 }
+        
+	    .center-container {
+	        text-align: center;
+	    }
+	
+	    body, html {
+	        height: 100%;
+	        margin: 0;
+	        justify-content: center;
+	        align-items: center;
+	    }
+\
     </style>
     <script>
         function updateFunc(custId) {
@@ -61,11 +78,11 @@
     </div>
     <!-- 사용자 수정 테이블 -->
     <form action="/project_H/user/update" method="post">
-        <table class="table table-borderless">
-            <tr>
-                <td style="width:35%"><label class="col-form-label">사용자 ID</label></td>
-                <td style="width:65%"><input type="text" id="custId" class="form-control" value="<%= session.getAttribute("sessCustId") %>" disabled></td>
-            </tr>
+        <table class="table table-borderless custom-table">
+		     <tr>
+	        <td><label class="col-form-label">사용자 ID</label></td>
+	        <td><input type="text" id="custId" class="form-control" value="<%= session.getAttribute("sessCustId") %>" disabled></td>
+	    </tr>
             <tr>
                 <td><label class="col-form-label">패스워드</label></td>
                 <td><input type="password" name="pwd" class="form-control"></td>
@@ -82,13 +99,11 @@
                 <td><label class="col-form-label">이메일</label></td>
                 <td><input type="text" name="email" id="email" class="form-control"></td>
             </tr>
-            <tr>
-                <td colspan="2" style="text-align: center;">
-                    <input class="btn btn-primary" type="submit" value="수정">
-                    <input class="btn btn-secondary ms-1" type="reset" value="취소">
-                </td>
-            </tr>
         </table>
+			<div style="text-align: center;">
+			    <input class="btn btn-primary" type="submit" value="수정">
+			    <input class="btn btn-secondary ms-1" type="reset" value="취소">
+			</div>
     </form>
 </body>
 </html>
