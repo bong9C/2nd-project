@@ -7,7 +7,7 @@
 </head>
 <body style="display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;">
 <div style="text-align: center;">
-<p style="margin-top: 20px;"> "당신을 도와줄 상담센터를 지역을 검색해보세요" </p>
+<p style="margin-top: 20px;"> "당신을 도와줄 상담센터 지역을 검색해보세요" </p>
     <label for="keyword">상담센터 키워드:</label>
     <input type="text" id="keyword" />
     <button onclick="searchCounselingCenters()">검색</button>

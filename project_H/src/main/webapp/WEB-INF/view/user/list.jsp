@@ -58,6 +58,7 @@
 			<div class="col-9 mx-auto">
 				<h3><strong>사용자 목록</strong></h3>
 				<hr>
+				
 				<table class="table table-hover">
 					<tr>
 						<th style="width: 10%">번호</th>

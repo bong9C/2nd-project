@@ -69,41 +69,43 @@
 <body>
     <%@ include file="../common/top.jsp" %>
     <div class="container text-center custom-margin">
-        <div class="row justify-content-center">  
+        <div class="row justify-content-center"> 
+		 	<div class="col-3"></div>
             <!-- ================ Main =================== -->
-            <div class="col-9 mx-auto"></div>
+            <div class="col-9"> <!-- </div> 닫는 테그는 폼 바깥에 두기. -->
             <input type="hidden" id="delUid">
+            <!-- 사용자 수정 테이블 -->
+		    <form action="/project_H/user/update" method="post">
+		        <table class="table table-borderless custom-table">
+				     <tr>
+			        <td><label class="col-form-label">사용자 ID</label></td>
+			        <td><input type="text" id="custId" class="form-control" value="<%= session.getAttribute("sessCustId") %>" disabled></td>
+			    </tr>
+		            <tr>
+		                <td><label class="col-form-label">패스워드</label></td>
+		                <td><input type="password" name="pwd" class="form-control"></td>
+		            </tr>
+		            <tr>
+		                <td><label class="col-form-label">패스워드 확인</label></td>
+		                <td><input type="password" name="pwd2" class="form-control"></td>
+		            </tr>
+		            <tr>
+		                <td><label class="col-form-label">이름</label></td>
+		                <td><input type="text" name="uname" id="uname" class="form-control"></td>
+		            </tr>
+		            <tr>
+		                <td><label class="col-form-label">이메일</label></td>
+		                <td><input type="text" name="email" id="email" class="form-control"></td>
+		            </tr>
+		        </table>
+					<div style="text-align: center;">
+					    <input class="btn btn-primary" type="submit" value="수정">
+					    <input class="btn btn-secondary ms-1" type="reset" value="취소">
+					</div>
+		    </form>
+		    </div>
             <!-- ================ Main =================== -->
         </div>
     </div>
-    <!-- 사용자 수정 테이블 -->
-    <form action="/project_H/user/update" method="post">
-        <table class="table table-borderless custom-table">
-		     <tr>
-	        <td><label class="col-form-label">사용자 ID</label></td>
-	        <td><input type="text" id="custId" class="form-control" value="<%= session.getAttribute("sessCustId") %>" disabled></td>
-	    </tr>
-            <tr>
-                <td><label class="col-form-label">패스워드</label></td>
-                <td><input type="password" name="pwd" class="form-control"></td>
-            </tr>
-            <tr>
-                <td><label class="col-form-label">패스워드 확인</label></td>
-                <td><input type="password" name="pwd2" class="form-control"></td>
-            </tr>
-            <tr>
-                <td><label class="col-form-label">이름</label></td>
-                <td><input type="text" name="uname" id="uname" class="form-control"></td>
-            </tr>
-            <tr>
-                <td><label class="col-form-label">이메일</label></td>
-                <td><input type="text" name="email" id="email" class="form-control"></td>
-            </tr>
-        </table>
-			<div style="text-align: center;">
-			    <input class="btn btn-primary" type="submit" value="수정">
-			    <input class="btn btn-secondary ms-1" type="reset" value="취소">
-			</div>
-    </form>
 </body>
 </html>
