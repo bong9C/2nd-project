@@ -58,7 +58,6 @@
 			<div class="col-9 mx-auto">
 				<h3><strong>사용자 목록</strong></h3>
 				<hr>
-				
 				<table class="table table-hover">
 					<tr>
 						<th style="width: 10%">번호</th>
@@ -70,7 +69,6 @@
 					</tr>
 				<c:forEach var="user" items="${userList}" varStatus="loop">
 					<tr>
-					<!-- 페이지 번호 -->
 						<td>${loop.count}</td>
 						<td>${user.custId}</td>
 						<td>${user.uname}</td>

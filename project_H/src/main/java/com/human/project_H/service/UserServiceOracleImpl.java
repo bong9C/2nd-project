@@ -6,12 +6,12 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.human.project_H.Dao.UserDaoOracle;
+import com.human.project_H.Dao.UserDao;
 import com.human.project_H.entity.User;
 
 @Service
 public class UserServiceOracleImpl implements UserService {
-	@Autowired private UserDaoOracle userDao;
+	@Autowired private UserDao userDao;
 
 	@Override
 	public int getUserCount() {
@@ -21,8 +21,8 @@ public class UserServiceOracleImpl implements UserService {
 
 	@Override
 	public User getUser(String custId) {
-		User user = userDao.getUser(custId);
-		return user;
+		
+		return userDao.getUser(custId);
 	}
 
 	@Override
@@ -48,21 +48,31 @@ public class UserServiceOracleImpl implements UserService {
 		userDao.deleteUser(custId);
 	}
 
-	@Override
-	public int login(String custId, String pwd) {
-		User user = userDao.getUser(custId);
-		if (user == null)
-			return CUSTID_NOT_EXIST;
-		if (BCrypt.checkpw(pwd, user.getPwd()))
-			return CORRECT_LOGIN;
-		else
-			return WRONG_PASSWORD;
-	}
 
 	@Override
 	public List<Integer> getPageList() {
-		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+    public int login(String custId, String pwd) {
+        User user = userDao.getUser(custId);
+        if (user == null)
+            return CUSTID_NOT_EXIST;
+        if (BCrypt.checkpw(pwd, user.getPwd()))
+            if (user.getIsDeleted() == 0)
+                return CORRECT_LOGIN;
+            else
+                return ISDELETED;
+        else
+            return WRONG_PASSWORD;
+    }
+	
+	@Override
+    public boolean isUserDeleted(String custId) {
+
+        return false;
+    }
+	
+	
 
 }

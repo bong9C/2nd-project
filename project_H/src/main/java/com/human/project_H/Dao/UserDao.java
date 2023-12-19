@@ -1,4 +1,3 @@
-
 package com.human.project_H.Dao;
 
 import java.util.List;
@@ -16,7 +15,7 @@ public interface UserDao {
 	@Select("select count(uname) from users where isDeleted=0")
 	public int getUserCount();
 	
-	@Select("select * from users where custId=#{custId}")
+	@Select("select * from users where custId=#{custId} and isDeleted=0")
 	public User getUser(String custId);
 	
 	// #{CUSTID} --> user.getcustId()
@@ -28,7 +27,7 @@ public interface UserDao {
 			+ "    where rownum <= #{limit}) where rnum > #{offset}")
 	public List<User> getUserList(int offset, int limit);
 	
-	@Update("update users set pwd=#{pwd}, uname=#{uname}, nickName=#{nickName}, email=#{email}, regdate=#{regdate} where custId=#{custId}")
+	@Update("update users set pwd=#{pwd}, uname=#{uname}, nickName=#{nickName}, email=#{email}, regDate=#{regDate} where custId=#{custId}")
 	void updateUser(User user);				// 인터페이스이기 때문에 public 생략 가능
 	
 	@Update("update users set isDeleted=1 where custId=#{custId}")
