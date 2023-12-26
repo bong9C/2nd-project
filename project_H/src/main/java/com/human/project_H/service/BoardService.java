@@ -25,12 +25,14 @@ public interface BoardService {
 
     void increaseViewCount(int bid);
 
-    int increaseHitCount(String custId, int bid);
+    int increaseHitCount(int bid);
     
     // 사용자가 이미 공감을 눌렀는지 여부 확인
     boolean hasUserLiked(String custId, int bid);
 
     // 사용자가 공감을 눌렀음을 기록
     void addLikeRecord(String custId, int bid);
+    
+    String getAuthorCustId(int uid);
 
 }
